@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  courseBack:
+    container_name: jclo-7-course-back
+    image: jclo-7-course-back
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SERVICE_PORT: 8080
+      LOGS_ENGINE: file
+      LOGS_FILE: transactions.log
+      CODE_GENERATOR: zero
+      CODE_LENGTH: 4
+    volumes:
+      - ${PWD}/transactions.log:/app/transactions.log
+    ports:
+      - 5500:8080
+
+  courseFront:
+    container_name: jclo-7-course-front
+    image: jclo-7-course-front
+    build:
+      context: .
+      dockerfile: Dockerfile.front
+    ports:
+      - 80:3000

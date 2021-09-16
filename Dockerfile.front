@@ -1,0 +1,19 @@
+FROM alpine/git as checkout
+
+WORKDIR /app
+
+RUN git clone https://github.com/serp-ya/card-transfer .
+
+FROM node:11 as build
+
+WORKDIR /app
+COPY --from=checkout /app ./
+
+RUN npm install
+
+FROM node:11-slim
+WORKDIR /app
+
+COPY --from=build /app ./
+
+ENTRYPOINT [ "npm", "run", "start" ]
