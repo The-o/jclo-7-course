@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @ConditionalOnProperty(name = "sms.code.generator", havingValue = "zero")
 public class ZeroCodeGenerator implements SmsCodeGenerator {
 
-    private int length;
+    private final int length;
 
     public ZeroCodeGenerator(@Value("${sms.code.length:4}") int length) {
         this.length = length;

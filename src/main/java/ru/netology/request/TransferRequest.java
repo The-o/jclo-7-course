@@ -18,13 +18,31 @@ import ru.netology.validation.groups.ThirdOrder;
 @GroupSequence({TransferRequest.class, FirstOrder.class, SecondOrder.class, ThirdOrder.class})
 public class TransferRequest {
 
+    private static final String PATTERN_CARD_NUMBER = "^\\d{16}$";
+    private static final String PATTERN_VALID_TILL = "^\\d{2}/\\d{2}$";
+    private static final String PATTERN_CVV = "^\\d{3}$";
+
+    private static final String ERROR_NO_CARD_FROM_NUMBER = "Не указан номер карты отправителя";
+    private static final String ERROR_WRONG_CARD_FROM_NUMBER = "Неверный номер карты отправителя";
+    private static final String ERROR_NO_FROM_VALID_TILL = "Не указана дата действия карты отправителя";
+    private static final String ERROR_WRONG_FROM_VALID_TILL = "Неверная дата действия карты отправителя";
+    private static final String ERROR_EXPIRED_FROM_VALID_TILL = "Срок действия карты отправителя истёк";
+    private static final String ERROR_NO_FROM_CVV = "Не указан CVV2/CVC2 код карты отправителя";
+    private static final String ERROR_WRONG_FROM_CVV = "Неверный CVV2/CVC2 код карты отправителя";
+    private static final String ERROR_NO_CARD_TO_NUMBER = "Не указан номер карты адресата";
+    private static final String ERROR_WRONG_CARD_TO_NUMBER = "Неверный номер карты адресата";
+    private static final String ERROR_NO_TRANSFER_AMOUNT = "Не указана сумма перевода";
+
     @Validated
     public class TransferRequestAmount {
 
-        @Min(value = 1, message = "Неверная сумма перевода")
+        private static final String ERROR_NO_TRANSFER_VALUE = "Неверная сумма перевода";
+        private static final String ERROR_NO_TRANSFER_CURRENCY = "Не указана валюта перевода";
+
+        @Min(value = 1, message = ERROR_NO_TRANSFER_VALUE)
         private long value;
 
-        @NotNull(message = "Не указана валюта перевода")
+        @NotNull(message = ERROR_NO_TRANSFER_CURRENCY)
         private String currency;
 
         public long getValue() {
@@ -45,26 +63,26 @@ public class TransferRequest {
 
     }
 
-    @NotNull(message = "Не указан номер карты отправителя", groups = FirstOrder.class)
-    @Pattern(regexp = "^\\d{16}$", message = "Неверный номер карты отправителя", groups = SecondOrder.class)
-    @CardNumber(message = "Неверный номер карты отправителя", groups = ThirdOrder.class)
+    @NotNull(message = ERROR_NO_CARD_FROM_NUMBER, groups = FirstOrder.class)
+    @Pattern(regexp = PATTERN_CARD_NUMBER, message = ERROR_WRONG_CARD_FROM_NUMBER, groups = SecondOrder.class)
+    @CardNumber(message = ERROR_WRONG_CARD_FROM_NUMBER, groups = ThirdOrder.class)
     private String cardFromNumber;
 
-    @NotNull(message = "Не указана дата действия карты отправителя", groups = FirstOrder.class)
-    @Pattern(regexp = "^\\d{2}/\\d{2}$", message = "Неверная дата действия карты отправителя", groups = SecondOrder.class)
-    @CardValidTill(message = "Срок действия карты отправителя истёк", groups = ThirdOrder.class)
+    @NotNull(message = ERROR_NO_FROM_VALID_TILL, groups = FirstOrder.class)
+    @Pattern(regexp = PATTERN_VALID_TILL, message = ERROR_WRONG_FROM_VALID_TILL, groups = SecondOrder.class)
+    @CardValidTill(message = ERROR_EXPIRED_FROM_VALID_TILL, groups = ThirdOrder.class)
     private String cardFromValidTill;
 
-    @NotNull(message = "Не указан CVV2/CVC2 код карты отправителя", groups = FirstOrder.class)
-    @Pattern(regexp = "^\\d{3}$", message = "Неверный CVV2/CVC2 код карты отправителя", groups = SecondOrder.class)
+    @NotNull(message = ERROR_NO_FROM_CVV, groups = FirstOrder.class)
+    @Pattern(regexp = PATTERN_CVV, message = ERROR_WRONG_FROM_CVV, groups = SecondOrder.class)
     private String cardFromCVV;
 
-    @NotNull(message = "Не указан номер карты адресата", groups = FirstOrder.class)
-    @Pattern(regexp = "^\\d{16}$", message = "Неверный номер карты адресата", groups = SecondOrder.class)
-    @CardNumber(message = "Неверный номер карты адресата", groups = ThirdOrder.class)
+    @NotNull(message = ERROR_NO_CARD_TO_NUMBER, groups = FirstOrder.class)
+    @Pattern(regexp = PATTERN_CARD_NUMBER, message = ERROR_WRONG_CARD_TO_NUMBER, groups = SecondOrder.class)
+    @CardNumber(message = ERROR_WRONG_CARD_TO_NUMBER, groups = ThirdOrder.class)
     private String cardToNumber;
 
-    @NotNull(message = "Не указана сумма перевода")
+    @NotNull(message = ERROR_NO_TRANSFER_AMOUNT)
     @Valid
     private TransferRequestAmount amount;
 

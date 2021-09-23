@@ -30,4 +30,5 @@ public class LuhnTests {
             Arguments.of("2345678987654327", true)
         );
     }
+
 }

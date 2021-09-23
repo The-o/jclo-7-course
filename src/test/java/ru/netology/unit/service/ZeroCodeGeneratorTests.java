@@ -34,4 +34,5 @@ public class ZeroCodeGeneratorTests {
             Arguments.of(6, "000000")
         );
     }
+
 }

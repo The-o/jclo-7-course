@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @ConditionalOnProperty(name = "sms.code.generator", havingValue = "numeric", matchIfMissing = true)
 public class NumericCodeGenerator implements SmsCodeGenerator {
 
-    private int length;
+    private final int length;
 
     public NumericCodeGenerator(@Value("${sms.code.length:4}") int length) {
         this.length = length;

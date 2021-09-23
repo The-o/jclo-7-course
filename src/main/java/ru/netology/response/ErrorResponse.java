@@ -2,8 +2,8 @@ package ru.netology.response;
 
 public class ErrorResponse {
 
-    public String message;
-    public int id;
+    public final String message;
+    public final int id;
 
     public ErrorResponse(String message, int id) {
         this.message = message;

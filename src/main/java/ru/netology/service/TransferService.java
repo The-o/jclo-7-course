@@ -3,7 +3,6 @@ package ru.netology.service;
 import java.io.IOException;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ru.netology.model.Transaction;
@@ -15,13 +14,15 @@ import ru.netology.service.exception.TransactionException;
 @Service
 public class TransferService {
 
-    private PaymentSystemClient paymentSystem;
-    private TransactionRepository repository;
-    private SmsCodeGenerator codeGenerator;
-    private Logger logger;
+    private static final String ERROR_TRANSACTION_WRONG_CODE = "Неверный код подтверждения операции";
+    private static final String ERROR_TRANSACTION_COMMITED = "Операция уже выполнена";
+    private static final String ERROR_TRANSACTION_NOT_FOUND = "Операция не найдена";
 
+    private final PaymentSystemClient paymentSystem;
+    private final TransactionRepository repository;
+    private final SmsCodeGenerator codeGenerator;
+    private final Logger logger;
 
-    @Autowired
     public TransferService(PaymentSystemClient paymentSystem, TransactionRepository repository, SmsCodeGenerator codeGenerator, Logger logger) {
         this.paymentSystem = paymentSystem;
         this.repository = repository;
@@ -41,13 +42,13 @@ public class TransferService {
     public String performTransaction(String operationId, String code) throws IOException {
         Transaction transaction = repository.getTransaction(operationId);
         if (transaction == null) {
-            throw new TransactionException("Операция не найдена");
+            throw new TransactionException(ERROR_TRANSACTION_NOT_FOUND);
         }
         if (!transaction.isNew()) {
-            throw new TransactionException("Операция уже выполнена");
+            throw new TransactionException(ERROR_TRANSACTION_COMMITED);
         }
         if (!transaction.hasCode(code)) {
-            throw new TransactionException("Неверный код подтверждения операции");
+            throw new TransactionException(ERROR_TRANSACTION_WRONG_CODE);
         }
 
         TransactionResult status = paymentSystem.performTransaction(transaction);
@@ -66,6 +67,5 @@ public class TransferService {
 
         return operationId;
     }
-
 
 }

@@ -7,10 +7,13 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class ConfirmRequest {
 
-    @NotBlank(message = "Не указан ID операции")
+    private static final String ERROR_NO_CONFIRMATION_CODE = "Не указан код подтверждения операции";
+    private static final String ERROR_NO_OPERATION_ID = "Не указан ID операции";
+
+    @NotBlank(message = ERROR_NO_OPERATION_ID)
     private String operationId;
 
-    @NotBlank(message = "Не указан код подтверждения операции")
+    @NotBlank(message = ERROR_NO_CONFIRMATION_CODE)
     private String code;
 
     public String getOperationId() {

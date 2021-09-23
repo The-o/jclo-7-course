@@ -1,6 +1,7 @@
 package ru.netology.util;
 
 public class Luhn {
+
     public static boolean check(String cardNumber) {
         int sum = 0;
         boolean alternate = false;
@@ -17,4 +18,5 @@ public class Luhn {
         }
         return (sum % 10 == 0);
     }
+    
 }
