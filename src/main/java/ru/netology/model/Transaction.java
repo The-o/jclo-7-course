@@ -15,9 +15,9 @@ public class Transaction {
     private final long amount;
     private final long commission;
     private final String currency;
+    private final String code;
 
     private TransactionStatus status;
-    private String code;
 
     public Transaction(String fromCard, String fromValidTill, String fromCvv, String toCard, long amount,
             String currency, String code) {
@@ -80,4 +80,5 @@ public class Transaction {
     public boolean hasCode(String code){
         return this.code.equals(code);
     }
+
 }

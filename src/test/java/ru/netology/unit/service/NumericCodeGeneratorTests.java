@@ -20,4 +20,5 @@ public class NumericCodeGeneratorTests {
 
         assertTrue(actual.matches("^\\d{" + length + "}$"));
     }
+
 }

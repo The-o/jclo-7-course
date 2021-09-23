@@ -3,7 +3,6 @@ package ru.netology.controller;
 import java.io.IOException;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -26,9 +25,11 @@ import ru.netology.service.exception.TransactionException;
 @RequestMapping("/")
 public class TransferController {
 
-    private TransferService transferService;
+    private static final String ERROR_INTERNAL = "Внутренняя ошибка сервера";
+    private static final String ERROR_WRONG_FORMAT = "Неверный формат данных";
+    
+    private final TransferService transferService;
 
-    @Autowired
     public TransferController(TransferService transferService) {
         this.transferService = transferService;
     }
@@ -62,7 +63,7 @@ public class TransferController {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        ErrorResponse error = new ErrorResponse("Неверный формат данных", 2);
+        ErrorResponse error = new ErrorResponse(ERROR_WRONG_FORMAT, 2);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
@@ -74,7 +75,7 @@ public class TransferController {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception ex) {
-        ErrorResponse error = new ErrorResponse("Внутренняя ошибка сервера", 4);
+        ErrorResponse error = new ErrorResponse(ERROR_INTERNAL, 4);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

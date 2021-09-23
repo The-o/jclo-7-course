@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -15,9 +14,8 @@ import org.springframework.stereotype.Component;
 @ConditionalOnProperty(name = "logs.engine", havingValue = "file")
 public class FileLogger implements Logger {
 
-    private String logFile;
+    private final String logFile;
 
-    @Autowired
     public FileLogger(@Value("${logs.file:logs.txt}") String logFile) {
         this.logFile = logFile;
     }

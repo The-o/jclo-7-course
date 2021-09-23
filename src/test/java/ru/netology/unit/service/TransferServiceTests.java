@@ -137,4 +137,5 @@ public class TransferServiceTests {
 
         assertEquals("Неверный код подтверждения операции", exception.getMessage());
     }
+
 }

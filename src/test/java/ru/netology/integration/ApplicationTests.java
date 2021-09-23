@@ -24,13 +24,15 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Testcontainers(disabledWithoutDocker = true)
 public class ApplicationTests {
+
     private static final String IMAGE_NAME = "jclo-7-course-back";
     private static final int IMAGE_PORT = 8080;
 
-    @Autowired
-    private TestRestTemplate restTemplate;
     private static String uri;
     private static HttpHeaders headers;
+
+    @Autowired
+    private TestRestTemplate restTemplate;
 
     @Container
     private static GenericContainer<?> app = new GenericContainer<>(IMAGE_NAME)
@@ -521,4 +523,5 @@ public class ApplicationTests {
             () -> assertEquals("Не указан код подтверждения операции", confirmResponseBody.get("message"))
         );
     }
+
 }
